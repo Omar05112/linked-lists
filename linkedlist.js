@@ -12,7 +12,9 @@ export default class LinkedList {
       this.heade = newNode;
     } else {
       let tmp = this.heade;
-      while (tmp.nextNode !== null) tmp = tmp.nextNode;
+      while (tmp.nextNode !== null) {
+        tmp = tmp.nextNode;
+      }
       tmp.nextNode = new Node(value);
     }
   }
@@ -112,5 +114,47 @@ export default class LinkedList {
     if (tmp === null) string += "null";
 
     return string;
+  }
+  insertAt(index, ...values) {
+    if (index < 0 || index > this.size() - 1)
+      throw new RangeError("Out of Range bruh");
+    if (this.heade == null) return null;
+    let prev = null;
+    let cur = this.heade;
+
+    for (let i = 0; i < index; i++) {
+      prev = cur;
+      cur = cur.nextNode;
+    }
+
+    for (const value of values) {
+      let newNode = new Node(value);
+      newNode.nextNode = cur;
+      if (prev === null) {
+        this.heade = newNode;
+      } else {
+        prev.nextNode = newNode;
+      }
+      prev = newNode;
+    }
+  }
+
+  removeAt(index) {
+    if (index < 0 || index > this.size() - 1) {
+      throw new RangeError("Out of Range bruh");
+    }
+    let prev = null;
+    let cur = this.heade;
+
+    for (let i = 0; i < index; i++) {
+      prev = cur;
+      cur = cur.nextNode;
+    }
+
+    if (prev === null) {
+      this.heade = cur.nextNode;
+    } else {
+      prev.nextNode = cur.nextNode;
+    }
   }
 }
